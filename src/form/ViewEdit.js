@@ -43,8 +43,6 @@ class ViewEdit extends Component {
     event.preventDefault();
     const {item} = this.state;
 
-    /*await fetch('/api/group', {
-		*/
 	await fetch('/api/view/' , {
       method: (item.id) ? 'PUT' : 'POST',
       headers: {

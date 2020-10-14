@@ -41,9 +41,7 @@ class HotelEdit extends Component {
     event.preventDefault();
     const {item} = this.state;
 
-    /*await fetch('/api/group', {
-		*/
-	await fetch((item.id) ? '/api/hotel/' : '/api/hotel/', {
+    await fetch('/api/hotel', {
       method: (item.id) ? 'PUT' : 'POST',
       headers: {
         'Accept': 'application/json',
