@@ -3,13 +3,15 @@ import { Link, withRouter } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import AppNavbar from '../AppNavbar';
 
-class HotelEdit extends Component {
+class ViewEdit extends Component {
 
   emptyItem = {
     name: '',
     address: '',
     gpsLatitude: '',
-    gpsLongitude: ''
+    gpsLongitude: '',
+    open: '',
+    close: ''
   };
 
   constructor(props) {
@@ -23,8 +25,8 @@ class HotelEdit extends Component {
 
   async componentDidMount() {
     if (this.props.match.params.id !== 'new') {
-      const hotel = await (await fetch(`/api/hotel/${this.props.match.params.id}`)).json();
-      this.setState({item: hotel});
+      const view = await (await fetch(`/api/view/${this.props.match.params.id}`)).json();
+      this.setState({item: view});
     }
   }
 
@@ -43,7 +45,7 @@ class HotelEdit extends Component {
 
     /*await fetch('/api/group', {
 		*/
-	await fetch((item.id) ? '/api/hotel/' : '/api/hotel/', {
+	await fetch('/api/view/' , {
       method: (item.id) ? 'PUT' : 'POST',
       headers: {
         'Accept': 'application/json',
@@ -51,12 +53,12 @@ class HotelEdit extends Component {
       },
       body: JSON.stringify(item),
     });
-    this.props.history.push('/hotel');
+    this.props.history.push('/view');
   }
 
   render() {
     const {item} = this.state;
-    const title = <h2>{item.id ? '更改酒店' : '新增酒店'}</h2>;
+    const title = <h2>{item.id ? '更改景点资料' : '新增景点资料'}</h2>;
 
     return <div>
       <AppNavbar/>
@@ -64,8 +66,8 @@ class HotelEdit extends Component {
         {title}
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="name">酒店名字</Label>
-            <Input type="text" name="name" id="model" value={item.name || ''}
+            <Label for="name">景点名字</Label>
+            <Input type="text" name="name" id="name" value={item.name || ''}
                    onChange={this.handleChange} autoComplete="name"/>
           </FormGroup>
           <FormGroup>
@@ -84,8 +86,18 @@ class HotelEdit extends Component {
                    onChange={this.handleChange} autoComplete="gpsLongitude"/>
           </FormGroup>
           <FormGroup>
+            <Label for="open">开放时间</Label>
+            <Input type="time" name="open" id="open" value={item.open || ''}
+                   onChange={this.handleChange} autoComplete="seat"/>
+          </FormGroup>
+          <FormGroup>
+            <Label for="close">关闭时间</Label>
+            <Input type="time" name="close" id="close" value={item.close || ''}
+                   onChange={this.handleChange} autoComplete="close"/>
+          </FormGroup>
+          <FormGroup>open
             <Button color="primary" type="submit">Save</Button>{' '}
-            <Button color="secondary" tag={Link} to="/hotel">Cancel</Button>
+            <Button color="secondary" tag={Link} to="/view">Cancel</Button>
           </FormGroup>
         </Form>
       </Container>
@@ -93,4 +105,4 @@ class HotelEdit extends Component {
   }
 }
 
-export default withRouter(HotelEdit);
+export default withRouter(ViewEdit);

@@ -3,52 +3,52 @@ import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from '../AppNavbar';
 import { Link } from 'react-router-dom';
 
-class CarList extends Component {
+class HotelList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {cars: [], isLoading: true};
+    this.state = {hotels: [], isLoading: true};
     this.remove = this.remove.bind(this);
   }
 
   componentDidMount() {
     this.setState({isLoading: true});
 
-    fetch('api/cars')
+    fetch('api/hotels')
       .then(response => response.json())
-      .then(data => this.setState({cars: data, isLoading: false}));
+      .then(data => this.setState({hotels: data, isLoading: false}));
   }
 
   async remove(id) {
-	await fetch(`/api/car/${id}`, {
+	await fetch(`/api/hotel/${id}`, {
 	  method: 'DELETE',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     }).then(() => {
-      let updatedCars = [...this.state.cars].filter(i => i.id !== id);
-      this.setState({cars: updatedCars});
+      let updatedHotels = [...this.state.hotels].filter(i => i.id !== id);
+      this.setState({hotels: updatedHotels});
     });
   }
 
   render() {
-    const {cars, isLoading} = this.state;
+    const {hotels, isLoading} = this.state;
 
     if (isLoading) {
       return <p>Loading...</p>;
     }
 
-    const carList = cars.map(car => {
-      //const address = `${group.address || ''} ${group.city || ''} ${group.stateOrProvince || ''}`;
-      return  <tr key={car.id}>
-        <td style={{whiteSpace: 'nowrap'}}>{car.model}</td>
-        <td>{car.license}</td>
-        <td>{car.seat}</td>
+    const hotelList = hotels.map(hotel => {
+      return  <tr key={hotel.id}>
+        <td style={{whiteSpace: 'nowrap'}}>{hotel.name}</td>
+        <td>{hotel.address}</td>
+        <td>{hotel.gpsLatitude}</td>
+        <td>{hotel.gpsLongitude}</td>
         <td>
           <ButtonGroup>
-            <Button size="sm" color="primary" tag={Link} to={"/car/" + car.id}>Edit</Button>
-            <Button size="sm" color="danger" onClick={() => this.remove(car.id)}>Delete</Button>
+            <Button size="sm" color="primary" tag={Link} to={"/hotel/" + hotel.id}>Edit</Button>
+            <Button size="sm" color="danger" onClick={() => this.remove(hotel.id)}>Delete</Button>
           </ButtonGroup>
         </td>
       </tr>
@@ -59,19 +59,20 @@ class CarList extends Component {
         <AppNavbar/>
         <Container fluid>
           <div className="float-right">
-            <Button color="success" tag={Link} to="/car/new">Add Car</Button>
+            <Button color="success" tag={Link} to="/hotel/new">Add Hotel</Button>
           </div>
-          <h3>旅游车资料</h3>
+          <h3>酒店资料</h3>
           <Table className="mt-4">
             <thead>
             <tr>
-              <th width="20%">型号</th>
-              <th width="20%">牌照号</th>
-              <th>载人数</th>
+              <th width="20%">酒店名字</th>
+              <th width="20%">地址</th>
+              <th width="20%">地理位置 (Latitude)</th>
+              <th >地理位置 (Longitude)</th>
             </tr>
             </thead>
             <tbody>
-            {carList}
+            {hotelList}
             </tbody>
           </Table>
         </Container>
@@ -80,4 +81,4 @@ class CarList extends Component {
   }
 }
 
-export default CarList;
+export default HotelList;
