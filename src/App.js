@@ -10,6 +10,8 @@ import HotelList from './form/HotelList';
 import HotelEdit from './form/HotelEdit';
 import ViewList from './form/ViewList';
 import ViewEdit from './form/ViewEdit';
+import ScheduleList from './form/ScheduleList';
+import ScheduleEdit from './form/ScheduleEdit';
 
 function App() {
     return (
@@ -26,6 +28,8 @@ function App() {
                     <Route exact path="/hotel/:id" component={HotelEdit}/>
                     <Route exact path="/view" component={ViewList}/>
                     <Route exact path="/view/:id" component={ViewEdit}/>
+                    <Route exact path="/schedule" component={ScheduleList}/>
+                    <Route exact path="/schedule/:id" component={ScheduleEdit}/>
                 </div>
             </div>
         </HashRouter>

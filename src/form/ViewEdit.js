@@ -86,14 +86,14 @@ class ViewEdit extends Component {
           <FormGroup>
             <Label for="open">开放时间</Label>
             <Input type="time" name="open" id="open" value={item.open || ''}
-                   onChange={this.handleChange} autoComplete="seat"/>
+                   onChange={this.handleChange} autoComplete="open"/>
           </FormGroup>
           <FormGroup>
             <Label for="close">关闭时间</Label>
             <Input type="time" name="close" id="close" value={item.close || ''}
                    onChange={this.handleChange} autoComplete="close"/>
           </FormGroup>
-          <FormGroup>open
+          <FormGroup>
             <Button color="primary" type="submit">Save</Button>{' '}
             <Button color="secondary" tag={Link} to="/view">Cancel</Button>
           </FormGroup>
