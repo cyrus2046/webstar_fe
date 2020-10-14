@@ -42,13 +42,14 @@ class ScheduleList extends Component {
     const scheduleList = schedules.map(schedule => {
       console.log(schedule);
       return  <tr key={schedule.id}>
-        <td style={{whiteSpace: 'nowrap'}}>{schedule.duration}</td>
-        <td>{schedule.hotel.name}</td>
-        <td>{schedule.hotel.address}</td>
+        <td style={{whiteSpace: 'nowrap'}}>{schedule.hotel.name}</td>
+        <td>{schedule.view.name}</td>
+        <td>{schedule.car.license}</td>
+        <td>{schedule.car.seat}</td>
         <td>
           <ButtonGroup>
-            <Button size="sm" color="primary" tag={Link} to={"/schedule/" + schedule.id}>Edit</Button>
-            <Button size="sm" color="danger" onClick={() => this.remove(schedule.id)}>Delete</Button>
+
+            <Button size="sm" color="primary" tag={Link} to={"/schedule/" + schedule.id}>View</Button>
           </ButtonGroup>
         </td>
       </tr>
@@ -61,12 +62,13 @@ class ScheduleList extends Component {
           <div className="float-right">
             <Button color="success" tag={Link} to="/schedule/new">Add Schedule</Button>
           </div>
-          <h3>旅游车资料</h3>
+          <h3>定期行程表</h3>
           <Table className="mt-4">
             <thead>
             <tr>
+              <th width="20%">酒店</th>
+              <th width="20%">景点</th>
               <th width="20%">型号</th>
-              <th width="20%">牌照号</th>
               <th>载人数</th>
             </tr>
             </thead>
