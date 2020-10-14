@@ -2,24 +2,25 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { BrowserRouter as HashRouter, Route, Switch, NavLink} from 'react-router-dom';
+import Home from './form/Home';
+import CarList from './form/CarList';
+import CarEdit from './form/CarEdit';
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+      <HashRouter>
+        <div>
+          <h1>Westar Travel Demo Application</h1>
+
+          <div className="content">
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/car" component={CarList}/>
+            <Route exact path="/car/:id" component={CarEdit}/>
+          </div>
+        </div>
+      </HashRouter>
   );
 }
 
