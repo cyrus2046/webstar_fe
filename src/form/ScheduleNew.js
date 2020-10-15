@@ -37,45 +37,62 @@ class ScheduleNew extends Component {
 
     async componentDidMount() {
         if(this.initialLoad){
-        console.log(fetch('/api/hotels')
+            fetch('/api/hotels')
+                    .then(response => response.json())
+                    .then( data => this.setState({hotels: data.map(({ id, name, gpsLatitude, gpsLongitude }) => ({ value: id, name: name, gpsLatitude: gpsLatitude, gpsLongitude: gpsLongitude })), isLoading: false}));
+
+            fetch('/api/cars')
                 .then(response => response.json())
-                .then( data => this.setState({hotels: data.map(({ id, name }) => ({ value: id, name: name })), isLoading: false})));
+                .then(data => this.setState({cars: data.map(({ id, license }) => ({ value: id, name: license })), isLoading: false}));
 
-        fetch('/api/cars')
-            .then(response => response.json())
-            .then(data => this.setState({cars: data.map(({ id, license }) => ({ value: id, name: license })), isLoading: false}));
-
-        fetch('/api/views')
-            .then(response => response.json())
-            .then(data => this.setState({views: data.map(({ id, name, open, close}) => ({ value: id, name: name, open: open, close: close })), isLoading: false}));
-        this.initialLoad=false;
+            fetch('/api/views')
+                .then(response => response.json())
+                .then(data => this.setState({views: data.map(({ id, name, open, close, gpsLatitude, gpsLongitude})=>({ value: id, name: name, open: open, close: close,
+                        gpsLatitude: gpsLatitude, gpsLongitude: gpsLongitude})), isLoading: false}));
+            this.initialLoad=false;
         }
     }
 
     checkRoute(event){
-        console.log(event);
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
+        console.log("checkRoute");
+        const {item} = this.state;
+        const {views} = this.state;
+        const {hotels} = this.state;
+
+        if(!item.hotel.id ||!item.view.id || !item.car.id) {
+            console.log('Some mandatory fields is null.');
+            return;
+        }
+
+        //get selected view object
+        let curView= views.filter((value, index, array)=>value.value == item.view.id);
+
+        //get selected hotel object
+        let curHotel= hotels.filter((value, index, array)=>value.value == item.hotel.id);
+
+        console.log(curView);
+        console.log(curHotel);
+        let url = '/api/route/'+curHotel[0].gpsLatitude+'/'
+            +curHotel[0].gpsLongitude+'/'+curView[0].gpsLatitude+'/'+curView[0].gpsLongitude;
+        fetch(url)
+            .then(response => response.json())
+            .then(data=>{
+                console.log(data);
+                item.toDuration = data.toDuration;
+                item.backDuration = data.backDuration;
+                this.setState({item});
+            });
     }
 
     genTimetable(event){
-        console.log(event);
-        const target = event.target;
-        const value = target.value;
-        const name = target.name;
         const {item} = this.state;
         const {views} = this.state;
 
         console.log(item);
         console.log(views);
 
-
+        //get selected view object
         let curView= views.filter((value, index, array)=>value.value == item.view.id);
-
-        console.log("curView = " +  JSON.stringify(curView));
-
-        console.log("item.view.id = " + item.view.id);
 
         const openTime = curView[0].open;
         const closeTime = curView[0].close;
@@ -83,12 +100,15 @@ class ScheduleNew extends Component {
         let startTime = moment(openTime, ['H:m']);
         let endTime = moment(closeTime, ['H:m']);
         let arrivalTime = null;
-        let toDuration = 30;
-        let backDuration = 40;
+        let toDuration = item.toDuration;
+        let backDuration = item.backDuration;
         var type=1;
 
-        for(;;){
+        //toDuration and backDuration should have value
+        if(toDuration<=0 || backDuration <=0)
+            return;
 
+        for(;;){
             if(type==1){
                 //going to viewpoint
                 arrivalTime=moment(startTime).add(toDuration,'minutes');
@@ -144,6 +164,10 @@ class ScheduleNew extends Component {
         const {item} = this.state;
         console.log(item);
 
+        if(!item.hotel.id ||!item.view.id || !item.car.id) {
+            console.log('Some mandatory fields is null.');
+            return;
+        }
         await fetch('/api/schedule', {
             method: (item.id) ? 'PUT' : 'POST',
             headers: {
@@ -160,14 +184,15 @@ class ScheduleNew extends Component {
         const {hotels} = this.state;
         const {views} = this.state;
         const {cars} = this.state;
+        const {travelTime} = this.state;
 
         const title = <h2>新增定期行程</h2>;
 
         const scheduleToList = item.scheduleDetails.map(scheduleDetail => {
             if(scheduleDetail.type == 1 ) {
                 return  <tr key={scheduleDetail.id}>
-                <td style={{whiteSpace: 'nowrap'}}>{scheduleDetail.startTime}</td>
-                <td >{scheduleDetail.arrivalTime}</td>
+                <td>{scheduleDetail.startTime}</td>
+                <td>{scheduleDetail.arrivalTime}</td>
                 <td></td>
                 <td></td>
                 </tr>
@@ -178,8 +203,8 @@ class ScheduleNew extends Component {
         const scheduleBackList = item.scheduleDetails.map(scheduleDetail => {
             if(scheduleDetail.type == 2 ) {
                 return  <tr key={scheduleDetail.id}>
-                <td style={{whiteSpace: 'nowrap'}}>{scheduleDetail.startTime}</td>
-                <td >{scheduleDetail.arrivalTime}</td>
+                <td>{scheduleDetail.startTime}</td>
+                <td>{scheduleDetail.arrivalTime}</td>
                 <td></td>
                 <td></td>
                 </tr>
@@ -225,8 +250,8 @@ class ScheduleNew extends Component {
                         <br/>
                         <table>
                         <tr>
-                            <td>去程</td>
-                            <td></td>
+                            <td style={{width: '20%'}}>去程</td>
+                            <td style={{width: '20%'}}>到達景點時間</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -235,7 +260,7 @@ class ScheduleNew extends Component {
                         </tbody>
                         <tr>
                             <td>回程</td>
-                            <td></td>
+                            <td>到達酒店時間</td>
                             <td></td>
                             <td></td>
                         </tr>
