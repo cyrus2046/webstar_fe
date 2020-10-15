@@ -11,7 +11,8 @@ import HotelEdit from './form/HotelEdit';
 import ViewList from './form/ViewList';
 import ViewEdit from './form/ViewEdit';
 import ScheduleList from './form/ScheduleList';
-import ScheduleEdit from './form/ScheduleEdit';
+import ScheduleNew from './form/ScheduleNew';
+import ScheduleView from './form/ScheduleView';
 
 function App() {
     return (
@@ -29,7 +30,8 @@ function App() {
                     <Route exact path="/view" component={ViewList}/>
                     <Route exact path="/view/:id" component={ViewEdit}/>
                     <Route exact path="/schedule" component={ScheduleList}/>
-                    <Route exact path="/schedule/:id" component={ScheduleEdit}/>
+                    <Route exact path="/schedule/:id" component={ScheduleNew}/>
+                    <Route exact path="/scheduleView/:id" component={ScheduleView}/>
                 </div>
             </div>
         </HashRouter>

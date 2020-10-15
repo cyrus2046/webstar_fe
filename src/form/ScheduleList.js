@@ -49,7 +49,7 @@ class ScheduleList extends Component {
         <td>
           <ButtonGroup>
 
-            <Button size="sm" color="primary" tag={Link} to={"/schedule/" + schedule.id}>View</Button>
+            <Button size="sm" color="primary" tag={Link} to={"/scheduleView/" + schedule.id}>View</Button>
           </ButtonGroup>
         </td>
       </tr>
