@@ -225,15 +225,15 @@ class ScheduleNew extends Component {
                                 <td></td>
                             </tr>
                             <tr>
-                                <td><SelectSearch search="true" options={hotels} name="hotel" id="hotel" placeholder="Choose your language" onChange={this.handleSelectHotelChange} /></td>
-                                <td><SelectSearch search="true" options={views} name="view" id="view" placeholder="Choose your language" onChange={this.handleSelectViewChange} /></td>
-                                <td><SelectSearch  search="true" options={cars}  name="car" id="car" placeholder="Choose your language" onChange={this.handleSelectCarChange} /></td>
+                                <td><SelectSearch search="true" options={hotels} name="hotel" id="hotel" placeholder="选择酒店" onChange={this.handleSelectHotelChange} /></td>
+                                <td><SelectSearch search="true" options={views} name="view" id="view" placeholder="选择景店" onChange={this.handleSelectViewChange} /></td>
+                                <td><SelectSearch  search="true" options={cars}  name="car" id="car" placeholder="选择汽车" onChange={this.handleSelectCarChange} /></td>
                                 <td></td>
                             </tr>
                             <tr height="10"/>
                             <tr>
-                                <td>去程所需时间 (分鐘) : </td>
-                                <td>回程所需时间 (分鐘) : </td>
+                                <td>去程所需时间 (分钟) : </td>
+                                <td>回程所需时间 (分钟) : </td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -242,7 +242,7 @@ class ScheduleNew extends Component {
                                                                                  onChange={this.handleChange} autoComplete="toDuration"/></td>
                                 <td><Input type="number" name="backDuration" id="backDuration" value={item.backDuration || ''}
                                                                                  onChange={this.handleChange} autoComplete="backDuration"/></td>
-                                <td><Button color="info" onClick={this.checkRoute}>計算路程時間</Button>{' '}
+                                <td><Button color="info" onClick={this.checkRoute}>计算路程时间</Button>{' '}
                                     <Button color="success" onClick={this.genTimetable}>产生定期行程</Button></td>
                                 <td></td>
                             </tr>
@@ -251,7 +251,7 @@ class ScheduleNew extends Component {
                         <table>
                         <tr>
                             <td style={{width: '20%'}}>去程</td>
-                            <td style={{width: '20%'}}>到達景點時間</td>
+                            <td style={{width: '20%'}}>到达景点时间</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -260,7 +260,7 @@ class ScheduleNew extends Component {
                         </tbody>
                         <tr>
                             <td>回程</td>
-                            <td>到達酒店時間</td>
+                            <td>到达酒店时间</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -271,8 +271,8 @@ class ScheduleNew extends Component {
                         <br/>
 
                         <FormGroup>
-                            <Button color="primary" type="submit">Save</Button>{' '}
-                            <Button color="secondary" tag={Link} to="/schedule">Cancel</Button>
+                            <Button color="primary" type="submit">储存</Button>{' '}
+                            <Button color="secondary" tag={Link} to="/schedule">取消</Button>
                         </FormGroup>
                     </Form>
                     </Container>

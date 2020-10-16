@@ -80,7 +80,7 @@ class ScheduleEdit extends Component {
                         </tr>
                         <tr>
                             <td>去程</td>
-                            <td>到達景点</td>
+                            <td>到达景点时间</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -89,7 +89,7 @@ class ScheduleEdit extends Component {
                         </tbody>
                         <tr>
                             <td>回程</td>
-                            <td>到達酒店</td>
+                            <td>到达酒店时间</td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -97,7 +97,7 @@ class ScheduleEdit extends Component {
                             {scheduleBackList}
                         </tbody>
                     </Table>
-                    <Button color="primary" tag={Link} to="/schedule">關閉</Button>
+                    <Button color="primary" tag={Link} to="/schedule">取消</Button>
                     </Container>
                 </div>
             }
